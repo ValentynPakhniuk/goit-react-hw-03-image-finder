@@ -8,30 +8,19 @@ export class CardItem extends Component {
     showModal: false,
   };
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown, false);
-  }
-
-  handleKeyDown = e => {
-    if (e.keyCode === 27) {
-      this.setState({ showModal: false });
-    }
-  };
-
-  handleOpenModal = () => {
-    this.setState({ showModal: true });
+  toggleModal = () => {
+    this.setState(prevState => ({ showModal: !prevState.showModal }));
   };
 
   render() {
     const { image } = this.props;
+    // const { showModal } = this.state;
     return (
-      <Item onClick={this.handleOpenModal}>
+      <Item onClick={this.toggleModal}>
         <img src={image.webformatURL} alt={image.tags} width="350" />
-        {this.state.showModal && <Modal image={image} />}
+        {this.state.showModal && (
+          <Modal image={image} onClose={this.toggleModal} />
+        )}
       </Item>
     );
   }
